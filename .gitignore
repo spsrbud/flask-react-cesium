@@ -1,0 +1,11 @@
+Node.js
+
+node_modules/ frontend/dist/
+
+Python
+
+pycache/ *.pyc venv/
+
+Docker
+
+*.log
