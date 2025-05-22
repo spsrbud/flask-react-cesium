@@ -19,8 +19,8 @@ const App = () => {
       fullscreenButton: false,
     });
 
-    // Fetch API data (example)
-    fetch("/api/globe")
+    // Fetch API data with /firefly prefix
+    fetch("/firefly/api/globe")
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("Error fetching API:", error));

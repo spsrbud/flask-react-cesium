@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
-    publicPath: "/",
+    publicPath: "/firefly/", // Set publicPath to /firefly/
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -47,7 +47,9 @@ module.exports = {
     }),
   ],
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: "/firefly/",
+    },
     port: 3000,
   },
 };
