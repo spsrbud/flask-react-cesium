@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { Viewer } from "cesium";
-import "cesium/Build/Cesium/Widgets/widgets.css";
+import "cesium/Source/Widgets/widgets.css";
 
 const App = () => {
   const cesiumContainer = useRef(null);
 
   useEffect(() => {
+    // Log CESIUM_BASE_URL for debugging
+    console.log("CESIUM_BASE_URL:", typeof CESIUM_BASE_URL === "undefined" ? "undefined" : CESIUM_BASE_URL);
+
     // Initialize Cesium Viewer
     const viewer = new Viewer(cesiumContainer.current, {
-      terrainProvider: undefined, // Disable terrain for simplicity
+      terrainProvider: undefined,
       baseLayerPicker: false,
       geocoder: false,
       homeButton: false,

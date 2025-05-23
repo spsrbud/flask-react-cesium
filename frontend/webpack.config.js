@@ -1,13 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.jsx",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
-    publicPath: "/firefly/", // Set publicPath to /firefly/
+    publicPath: "/firefly/",
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -32,18 +33,34 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      template: path.resolve(__dirname, "public", "index.html"),
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(
-            __dirname,
-            "node_modules/cesium/Build/Cesium",
-          ),
-          to: "cesium",
+          from: path.resolve(__dirname, "node_modules/cesium/Source/Assets"),
+          to: "cesium/Assets",
+          noErrorOnMissing: true,
+        },
+        {
+          from: path.resolve(__dirname, "node_modules/cesium/Source/ThirdParty"),
+          to: "cesium/ThirdParty",
+          noErrorOnMissing: true,
+        },
+        {
+          from: path.resolve(__dirname, "node_modules/cesium/Source/Workers"),
+          to: "cesium/Workers",
+          noErrorOnMissing: true,
+        },
+        {
+          from: path.resolve(__dirname, "node_modules/cesium/Source/Widgets"),
+          to: "cesium/Widgets",
+          noErrorOnMissing: true,
         },
       ],
+    }),
+    new webpack.DefinePlugin({
+      CESIUM_BASE_URL: JSON.stringify("/firefly/cesium/"),
     }),
   ],
   devServer: {
