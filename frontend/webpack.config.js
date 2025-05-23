@@ -38,22 +38,22 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "node_modules/cesium/Source/Assets"),
+          from: path.resolve(__dirname, "node_modules/cesium/Build/Cesium/Assets"),
           to: "cesium/Assets",
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(__dirname, "node_modules/cesium/Source/ThirdParty"),
+          from: path.resolve(__dirname, "node_modules/cesium/Build/Cesium/ThirdParty"),
           to: "cesium/ThirdParty",
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(__dirname, "node_modules/cesium/Source/Workers"),
+          from: path.resolve(__dirname, "node_modules/cesium/Build/Cesium/Workers"),
           to: "cesium/Workers",
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(__dirname, "node_modules/cesium/Source/Widgets"),
+          from: path.resolve(__dirname, "node_modules/cesium/Build/Cesium/Widgets"),
           to: "cesium/Widgets",
           noErrorOnMissing: true,
         },
