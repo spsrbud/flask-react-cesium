@@ -1,32 +1,31 @@
 # Stage 1: Build frontend
-FROM node:20-alpine AS frontend
+FROM node:20 AS frontend
 
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install
-COPY frontend/ .
-# Debug: Inspect cesium Workers directory
-RUN ls -la node_modules/cesium/Source/Workers || true
+# RUN npm config set registry http://registry.npmjs.org/
+# RUN npm set progress=false
+RUN npm install --verbose
+COPY frontend ./
 RUN npm run build
-# Debug: Verify built Cesium Workers files
-RUN ls -la dist/cesium/Workers || true
-RUN test -f dist/cesium/Workers/createVerticesFromHeightmap.js && echo "Worker file found" || echo "Worker file missing"
 
 # Stage 2: Build backend and final image
-FROM python:3.12-slim
+FROM python:3.12-slim AS backend
 
 WORKDIR /app
+COPY backend/ ./backend/
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend
-COPY backend/ ./backend/
-
 # Copy frontend build
 COPY --from=frontend /app/frontend/dist ./frontend/dist
+
+ENV FLASK_APP=backend/app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=production
 
 # Expose port
 EXPOSE 5000
 
 # Run the app
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "backend.app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "backend.app:app"]

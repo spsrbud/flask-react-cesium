@@ -1,9 +1,13 @@
-from flask import Flask, send_from_directory, Response
+from flask import Flask, send_from_directory
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import os
+import logging
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Initialize Flask app and API  
 
-app = Flask(__name__, static_folder="../frontend/dist")
+app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/firefly")
 api = Api(app, prefix="/firefly")
 CORS(app, resources={r"/firefly/*": {"origins": "*"}})
 
@@ -17,16 +21,13 @@ api.add_resource(GlobeAPI, "/api/globe")
 @app.route("/firefly", defaults={"path": ""})
 @app.route("/firefly/<path:path>")
 def serve(path):
-    file_path = os.path.join(app.static_folder, path)
-    if path.startswith("cesium/") and os.path.exists(file_path):
-        # Explicitly set MIME type for JavaScript files
-        if path.endswith(".js"):
-            with open(file_path, "rb") as f:
-                return Response(f.read(), mimetype="application/javascript")
-        return send_from_directory(app.static_folder, path)
-    if path != "" and os.path.exists(file_path):
-        return send_from_directory(app.static_folder, path)
-    return send_from_directory(app.static_folder, "index.html")
+    dist_dir = app.static_folder
+    full_path = os.path.join(dist_dir, path)
+    
+    if path != "" and os.path.exists(full_path):
+        return send_from_directory(dist_dir, path)
+        
+    return send_from_directory(dist_dir, "index.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Viewer } from "cesium";
-import "cesium/Source/Widgets/widgets.css";
+import "cesium/Widgets/widgets.css";
 
 const App = () => {
   const cesiumContainer = useRef(null);
