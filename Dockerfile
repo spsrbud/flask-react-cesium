@@ -3,8 +3,8 @@ FROM node:20 AS frontend
 
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm config set registry http://registry.npmjs.org/
-RUN npm set progress=false
+# RUN npm config set registry http://registry.npmjs.org/
+# RUN npm set progress=false
 RUN npm install --verbose
 COPY frontend ./
 RUN npm run build
@@ -15,7 +15,7 @@ FROM python:3.12-slim AS backend
 WORKDIR /app
 COPY backend/ ./backend/
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy frontend build
 COPY --from=frontend /app/frontend/dist ./frontend/dist
