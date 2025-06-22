@@ -7,9 +7,9 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 # Initialize Flask app and API  
 
-app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/firefly")
-api = Api(app, prefix="/firefly")
-CORS(app, resources={r"/firefly/*": {"origins": "*"}})
+app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/")
+api = Api(app, prefix="/")
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 class GlobeAPI(Resource):
     def get(self):
@@ -18,8 +18,8 @@ class GlobeAPI(Resource):
 api.add_resource(GlobeAPI, "/api/globe")
 
 # Serve React frontend and Cesium assets under /firefly
-@app.route("/firefly", defaults={"path": ""})
-@app.route("/firefly/<path:path>")
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
 def serve(path):
     dist_dir = app.static_folder
     full_path = os.path.join(dist_dir, path)

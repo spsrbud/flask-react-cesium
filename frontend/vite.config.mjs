@@ -6,7 +6,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 const cesiumBuild = "node_modules/cesium/Build/Cesium";
 
 export default defineConfig({
-    base: '/firefly/',
+    base: '/',
     plugins: [
         react(),
         viteStaticCopy({
@@ -36,7 +36,7 @@ export default defineConfig({
         },
     },
     define: {
-        CESIUM_BASE_URL: JSON.stringify('/firefly/'),
+        CESIUM_BASE_URL: JSON.stringify('/'),
     },
     build: {
         outDir: 'dist',
@@ -48,7 +48,7 @@ export default defineConfig({
     server: {
         port: 3000,
         proxy: {
-            '/firefly/api': "http://localhost:5000",
+            '/api': "http://localhost:5000",
         },
     }
     });

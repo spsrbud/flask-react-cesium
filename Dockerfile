@@ -3,8 +3,8 @@ FROM node:20 AS frontend
 
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-# RUN npm config set registry http://registry.npmjs.org/
-# RUN npm set progress=false
+RUN npm config set registry http://registry.npmjs.org/
+RUN npm set progress=false
 RUN npm install --verbose
 COPY frontend ./
 RUN npm run build
