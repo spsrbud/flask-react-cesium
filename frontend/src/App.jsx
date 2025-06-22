@@ -42,6 +42,7 @@ const App = () => {
     socketConnection.on("server_message", (message) => {
       console.log("Received message:", message);
       setMessages((prevMessages) => [...prevMessages, message.data]);
+    });
 
     return () => {
       // Cleanup Cesium Viewer
@@ -66,6 +67,11 @@ const App = () => {
       <button onClick={() => sendMessage("Hello from client!")}>
         Send Message
       </button>
+      <div>
+	  {messages.map((msg, idx) => (
+		  <div key={idx}>{msg}</div>
+	  ))}
+      </div>
       <div
         ref={cesiumContainer}
         style={{ width: "100%", height: "90vh" }}

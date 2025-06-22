@@ -28,4 +28,5 @@ ENV FLASK_ENV=production
 EXPOSE 5000
 
 # Run the app
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "backend.app:app"]
+# CMD ["gunicorn", "--worker-class", "eventlet", "-w", "1", "-b", "0.0.0.0:5000", "backend.app:app"]
+CMD ["python", "-m", "backend.app"]

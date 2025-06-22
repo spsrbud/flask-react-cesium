@@ -3,3 +3,4 @@ Flask-RESTful==0.3.10
 Flask-CORS==6.0.0
 gunicorn==23.0.0
 Flask-SocketIO==5.5.1
+eventlet==0.40.0
